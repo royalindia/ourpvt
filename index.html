@@ -23,6 +23,10 @@
         </header>
         
         <main>
+            <div class="upload-container">
+                <input type="file" id="excelFile" accept=".xlsx, .xls" />
+            </div>
+
             <div class="search-container">
                 <input type="text" id="cardNumberSearch" placeholder="Enter Card Number">
                 <button onclick="searchCustomer()">Search</button>
@@ -37,7 +41,8 @@
         </main>
     </div>
 
-    <script src="data.js"></script>
+    <!-- SheetJS Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
