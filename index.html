@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Customer Lookup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-gate" id="adminGate">
+        <div class="gate-container">
+            <h2>Admin Access Required</h2>
+            <input type="password" id="adminKey" placeholder="Enter admin key">
+            <button onclick="checkAdminAccess()">Enter</button>
+            <p id="accessError" class="error-message"></p>
+        </div>
+    </div>
+
+    <div class="admin-panel" id="adminPanel" style="display: none;">
+        <header>
+            <h1>Customer Data Lookup</h1>
+        </header>
+        
+        <main>
+            <div class="search-container">
+                <input type="text" id="cardNumberSearch" placeholder="Enter Card Number">
+                <button onclick="searchCustomer()">Search</button>
+            </div>
+            
+            <div class="results-container" id="resultsContainer">
+                <div class="no-results" id="noResults">
+                    <p>Enter a card number to search for customer details</p>
+                </div>
+                <div class="customer-card" id="customerCard" style="display: none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
