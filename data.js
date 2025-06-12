@@ -29,16 +29,6 @@ const customerData = [
         agents: "Agent White",
         respond: "Pending",
         totalCards: 2
-    },
-    {slNo: 4,
-        cardNumber: "101",
-        name: "SANTOSH V",
-        address: "BANASHANKARI",
-        contactNo: "9620094540",
-        agents: "0",
-        respond: "MD",
-        totalCards: 1
     }
-    
     // Add more customer data as needed
 ];
