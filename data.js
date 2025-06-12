@@ -1,4 +1,6 @@
- {
+// Example customer data - replace with your actual data exported from Excel
+const customerData = [
+    {
         slNo: 1,
         cardNumber: "CARD001",
         name: "John Doe",
@@ -39,3 +41,4 @@
     }
     
     // Add more customer data as needed
+];
