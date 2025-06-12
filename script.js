@@ -1,5 +1,5 @@
-// Admin access control
-const ADMIN_KEY = "admin123"; // Change this to your preferred admin key
+const ADMIN_KEY = "admin123"; // Change if needed
+let customerData = [];
 
 function checkAdminAccess() {
     const enteredKey = document.getElementById('adminKey').value;
@@ -14,7 +14,21 @@ function checkAdminAccess() {
     }
 }
 
-// Customer search functionality
+// Excel file input handler
+document.getElementById('excelFile').addEventListener('change', function (e) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        customerData = XLSX.utils.sheet_to_json(worksheet);
+        alert("Excel loaded! You can now search.");
+    };
+    reader.readAsArrayBuffer(e.target.files[0]);
+});
+
+// Search functionality
 function searchCustomer() {
     const cardNumber = document.getElementById('cardNumberSearch').value.trim();
     const resultsContainer = document.getElementById('resultsContainer');
@@ -27,10 +41,9 @@ function searchCustomer() {
         customerCard.style.display = 'none';
         return;
     }
-    
-    // Find customer in the data array
-    const customer = customerData.find(c => c.cardNumber === cardNumber);
-    
+
+    const customer = customerData.find(c => String(c.cardNumber).trim() === cardNumber);
+
     if (customer) {
         displayCustomer(customer);
         noResults.style.display = 'none';
@@ -46,48 +59,20 @@ function displayCustomer(customer) {
     const customerCard = document.getElementById('customerCard');
     
     customerCard.innerHTML = `
-        <div class="customer-field">
-            <label>SL. NO</label>
-            <span>${customer.slNo || 'N/A'}</span>
+        <div class="customer-field"><label>SL. NO</label><span>${customer.slNo || 'N/A'}</span></div>
+        <div class="customer-field"><label>CARD NO</label><span>${customer.cardNumber || 'N/A'}</span></div>
+        <div class="customer-field"><label>NAME</label><span>${customer.name || 'N/A'}</span></div>
+        <div class="customer-field"><label>ADDRESS</label><span>${customer.address || 'N/A'}</span></div>
+        <div class="customer-field"><label>CONTACT NO</label>
+            <span><a href="tel:${customer.contactNo || ''}" class="contact-link">${customer.contactNo || 'N/A'}</a></span>
         </div>
-        <div class="customer-field">
-            <label>CARD NO</label>
-            <span>${customer.cardNumber || 'N/A'}</span>
-        </div>
-        <div class="customer-field">
-            <label>NAME</label>
-            <span>${customer.name || 'N/A'}</span>
-        </div>
-        <div class="customer-field">
-            <label>ADDRESS</label>
-            <span>${customer.address || 'N/A'}</span>
-        </div>
-        <div class="customer-field">
-            <label>CONTACT NO</label>
-            <span>
-                <a href="tel:${customer.contactNo || ''}" class="contact-link">
-                    ${customer.contactNo || 'N/A'}
-                </a>
-            </span>
-        </div>
-        <div class="customer-field">
-            <label>AGENTS</label>
-            <span>${customer.agents || 'N/A'}</span>
-        </div>
-        <div class="customer-field">
-            <label>RESPOND</label>
-            <span>${customer.respond || 'N/A'}</span>
-        </div>
-        <div class="customer-field total-cards">
-            <label>TOTAL CARDS</label>
-            <span>${customer.totalCards || '0'}</span>
-        </div>
+        <div class="customer-field"><label>AGENTS</label><span>${customer.agents || 'N/A'}</span></div>
+        <div class="customer-field"><label>RESPOND</label><span>${customer.respond || 'N/A'}</span></div>
+        <div class="customer-field total-cards"><label>TOTAL CARDS</label><span>${customer.totalCards || '0'}</span></div>
     `;
 }
 
-// Allow search on Enter key
+// Support Enter key search
 document.getElementById('cardNumberSearch').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        searchCustomer();
-    }
+    if (e.key === 'Enter') searchCustomer();
 });
